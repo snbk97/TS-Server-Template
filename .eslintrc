@@ -1,0 +1,20 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "prettier",
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:eslint-plugin-import/recommended",
+    "plugin:eslint-plugin-import/typescript",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "import/newline-after-import":"error",
+    "lines-between-class-members":["error", "always", { "exceptAfterSingleLine": true }]
+  }
+}
