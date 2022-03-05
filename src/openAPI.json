@@ -7,14 +7,13 @@
       "name": "Amazing Developer"
     },
     "servers": [
-      "http://localhost:undefined/api/v1"
+      "http://localhost:3000/api/v1"
     ]
   },
   "swagger": "2.0",
   "paths": {
     "/api/v1/users/me": {
       "get": {
-        "basePath": "/api/v1",
         "tags": [
           "users"
         ],
@@ -22,6 +21,19 @@
         "responses": {
           "200": {
             "description": "Return current user info"
+          }
+        }
+      }
+    },
+    "/api/v1/users/create": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "description": "Add new user",
+        "responses": {
+          "200": {
+            "description": "Return newly created User"
           }
         }
       }

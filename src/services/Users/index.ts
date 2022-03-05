@@ -1,23 +1,31 @@
-import { Document, PopulateOptions, FilterQuery, QueryOptions } from 'mongoose';
-import IBaseService from '../_default/IBaseService';
-import UserModel from '../../models/Users';
+import { FilterQuery, PopulateOptions, QueryOptions } from 'mongoose';
+import UserModel, { IUser, UserDocument } from '../../models/Users';
 
-class UsersService implements IBaseService {
-  model = UserModel;
-  async findMany(
-    filter: FilterQuery<typeof Document>,
-    populateOptions: PopulateOptions,
-    options: QueryOptions
-  ): Promise<any> {
-    return this.model.find(filter, {}, options).populate(populateOptions);
+class UsersService {
+  static model = UserModel;
+
+  static async create(data: IUser): Promise<UserDocument | unknown> {
+    return this.model.create(data);
   }
 
-  async findOne(
-    filter: FilterQuery<typeof Document>,
+  static update(filter: FilterQuery<IUser>, update:Up): Promise<UserDocument> {
+    return this.model.updateOne(filter, { $set: { deleted: true } });
+  }
+
+  static async findOne(
+    filter: FilterQuery<IUser>,
     populateOptions: PopulateOptions,
     options: QueryOptions
-  ): Promise<any> {
+  ): Promise<UserDocument | unknown> {
     return this.model.findOne(filter, {}, options).populate(populateOptions);
+  }
+
+  static async findMany(
+    filter: FilterQuery<IUser>,
+    populateOptions: PopulateOptions,
+    options: QueryOptions
+  ): Promise<UserDocument[] | unknown> {
+    return this.model.find(filter, {}, options).populate(populateOptions);
   }
 }
 

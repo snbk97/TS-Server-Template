@@ -23,10 +23,9 @@ class Server {
   async connectMongo() {
     const { MONGO_HOST, MONGO_PORT, MONGO_DB } = process.env;
     const mongoURL = `mongodb://${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}`;
-    const mDB = await mongoose.connect(mongoURL, err => {
+    await mongoose.connect(mongoURL, err => {
       if (err) throw new Error('Mongoose Error');
     });
-    console.log(':::Mongoose', mDB);
   }
 
   bootstrapServer(app: Express) {
@@ -35,11 +34,12 @@ class Server {
   }
 
   registerRoutes(app: Express) {
+    // swagger routes
     const swaggerDoc = swaggerJsDoc(swaggerConfig());
     fs.writeFileSync(`${__dirname}/../openAPI.json`, JSON.stringify(swaggerDoc, null, 2));
-
     app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 
+    // list server routes here
     app.use(getRouterURL(V1, '/users'), UsersRouter);
   }
 
