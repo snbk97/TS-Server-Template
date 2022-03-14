@@ -1,12 +1,9 @@
 import cors from 'cors';
-import fs from 'fs';
 import express, { Express } from 'express';
-import swaggerJsDoc from 'swagger-jsdoc';
-import swaggerUI from 'swagger-ui-express';
-import UsersRouter from '../controllers/Users/router';
-import swaggerConfig from './config/swagger';
+import UsersRouter from '../controllers/Users/routes';
 import { VERSIONS } from './config/constants';
 import mongoose from 'mongoose';
+import errorHandler from './middlewares/errorHandler';
 
 const { V1 } = VERSIONS;
 
@@ -18,12 +15,13 @@ class Server {
     this.connectMongo();
     this.bootstrapServer(this.app);
     this.registerRoutes(this.app);
+    this.registerErrorHandlers(this.app);
   }
 
   async connectMongo() {
     const { MONGO_HOST, MONGO_PORT, MONGO_DB } = process.env;
     const mongoURL = `mongodb://${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}`;
-    await mongoose.connect(mongoURL, err => {
+    mongoose.connect(mongoURL, err => {
       if (err) throw new Error('Mongoose Error');
     });
   }
@@ -33,14 +31,14 @@ class Server {
     app.use(cors());
   }
 
+  // TODO: convert routes into mico-kernel arch
   registerRoutes(app: Express) {
-    // swagger routes
-    const swaggerDoc = swaggerJsDoc(swaggerConfig());
-    fs.writeFileSync(`${__dirname}/../openAPI.json`, JSON.stringify(swaggerDoc, null, 2));
-    app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc));
-
-    // list server routes here
     app.use(getRouterURL(V1, '/users'), UsersRouter);
+  }
+
+  registerErrorHandlers(app: Express) {
+    app.use(errorHandler);
+    // app.on('');
   }
 
   getInstance() {

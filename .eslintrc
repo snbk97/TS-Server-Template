@@ -17,5 +17,10 @@
     "import/newline-after-import":"error",
     "@typescript-eslint/no-empty-function": "off",
     "lines-between-class-members":["error", "always", { "exceptAfterSingleLine": true }]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {} // this loads <rootdir>/tsconfig.json to eslint
+    }
   }
 }

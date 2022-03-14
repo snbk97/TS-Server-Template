@@ -1,8 +1,10 @@
+require('express-async-errors');
+require('module-alias/register');
+
 import { config as dotEnvConfig } from 'dotenv';
+import Server from './server';
 
 dotEnvConfig();
-
-import Server from './server';
 
 const server = new Server().getInstance();
 

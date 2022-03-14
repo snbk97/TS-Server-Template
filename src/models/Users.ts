@@ -1,4 +1,4 @@
-import { Schema, model, ObjectId, Document } from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
 
 export const UserSchema = new Schema({
   name: {
@@ -9,22 +9,25 @@ export const UserSchema = new Schema({
   },
   phone: {
     type: String
+  },
+  deleted: {
+    type: Boolean
   }
 });
 
 const UserModel = model('users', UserSchema);
 
-export default UserModel;
-
 export class User {
   name: string;
   email: string;
   phone: string;
+  deleted?: boolean;
 
-  constructor(name: string, email: string, phone: string) {
+  constructor(name: string, email: string, phone: string, deleted?: boolean) {
     this.name = name;
     this.email = email;
     this.phone = phone;
+    this.deleted = deleted;
   }
 }
 
@@ -37,4 +40,4 @@ export interface IUser {
 
 export type UserDocument = Omit<IUser, 'id'> & Document;
 
-// TODO: create User class
+export default UserModel;
