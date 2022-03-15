@@ -6,12 +6,11 @@ function errorHandler(err: TypeError | CustomError | AxiosError, req: Request, r
   try {
     let customError = err;
     if ((<AxiosError>err).isAxiosError) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const error: any = (<AxiosError>err).toJSON();
       customError = new CustomError(error.message);
     }
     if (!(err instanceof CustomError) && !(<AxiosError>err).isAxiosError) {
-      customError = new CustomError('Internal server error');
+      customError = new CustomError('Internal server error', 500, { stackTrace: err.stack });
     }
     res.status((customError as CustomError).status).send(customError);
   } catch {

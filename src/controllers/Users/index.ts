@@ -26,8 +26,7 @@ export default class UserController {
   }
 
   static async find(req: Request, res: Response): Promise<void> {
-    const { email } = req.body;
-    const foundUser = await UsersService.findOne({ email }, null, {});
+    const foundUser = await UsersService.findOne({ ...req.body }, null, {});
     if (!foundUser) throw new CustomError('No user found');
     res.json({
       success: true,
@@ -36,8 +35,7 @@ export default class UserController {
   }
 
   static async delete(req: Request, res: Response): Promise<void> {
-    const { email } = req.body;
-    const deletedUser = await UsersService.delete({ email });
+    const deletedUser = await UsersService.delete({ ...req.body });
     if (!deletedUser) throw new CustomError('No user found');
     res.json({
       message: 'deleted',

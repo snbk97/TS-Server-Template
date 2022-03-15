@@ -1,11 +1,8 @@
 import cors from 'cors';
-import express, { Express } from 'express';
-import UsersRouter from '../controllers/Users/routes';
-import { VERSIONS } from './config/constants';
+import express, { Express, json, urlencoded } from 'express';
 import mongoose from 'mongoose';
-import errorHandler from './middlewares/errorHandler';
-
-const { V1 } = VERSIONS;
+import errorHandler from '@common/middlewares/errorHandler';
+import exportedRoutes from '@controllers/index';
 
 class Server {
   app: Express;
@@ -27,25 +24,25 @@ class Server {
   }
 
   bootstrapServer(app: Express) {
-    app.use(express.json());
+    app.use(json());
+    // app.use(urlencoded({ limit: Infinity }));
     app.use(cors());
   }
 
-  // TODO: convert routes into mico-kernel arch
   registerRoutes(app: Express) {
-    app.use(getRouterURL(V1, '/users'), UsersRouter);
+    Object.keys(exportedRoutes).forEach(routeName => {
+      const route = exportedRoutes[routeName];
+      app.use(`/api/${route.version}/${routeName}`, ...route.middlewares, route.router);
+    });
   }
 
   registerErrorHandlers(app: Express) {
     app.use(errorHandler);
-    // app.on('');
   }
 
   getInstance() {
     return this.app;
   }
 }
-
-const getRouterURL = (version: string, path: string) => `/api/${version}${path}`;
 
 export default Server;
