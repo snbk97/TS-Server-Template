@@ -12,6 +12,7 @@
             "@models/*": ["./models/*"],
             "@services/*": ["./services/*"],
             "@controllers/*": ["./controllers/*"],
+            "@common/*": ["./common/*"],
         },
         "forceConsistentCasingInFileNames": true ,
         "experimentalDecorators": true,
