@@ -3,6 +3,6 @@
         "source.fixAll.eslint": true,
         "source.fixAll.typescript": true,
     },
-    "files.autoSave":"afterDelay",
-    "files.autoSaveDelay": 1000
+    "files.autoSave":"onFocusChange",
+    // "files.autoSaveDelay": 5000
 }

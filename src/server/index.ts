@@ -25,7 +25,7 @@ class Server {
 
   bootstrapServer(app: Express) {
     app.use(json());
-    app.use(urlencoded({ limit: Infinity }));
+    // app.use(urlencoded({ limit: Infinity }));
     app.use(cors());
   }
 

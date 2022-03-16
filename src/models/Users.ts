@@ -1,19 +1,22 @@
 import { Schema, model, Document } from 'mongoose';
 
-export const UserSchema = new Schema({
-  name: {
-    type: String
+export const UserSchema = new Schema(
+  {
+    name: {
+      type: String
+    },
+    email: {
+      type: String
+    },
+    phone: {
+      type: String
+    },
+    deleted: {
+      type: Boolean
+    }
   },
-  email: {
-    type: String
-  },
-  phone: {
-    type: String
-  },
-  deleted: {
-    type: Boolean
-  }
-});
+  { timestamps: true }
+);
 
 const UserModel = model('users', UserSchema);
 
@@ -32,10 +35,10 @@ export class User {
 }
 
 export interface IUser {
-  // id: ObjectId | string;
   name: string;
   email: string;
   phone: string;
+  deleted?: boolean;
 }
 
 export type UserDocument = Omit<IUser, 'id'> & Document;
